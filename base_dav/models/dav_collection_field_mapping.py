@@ -85,7 +85,7 @@ class DavCollectionFieldMapping(models.Model):
     @api.model
     def _from_vobject_datetime(self, item):
         if isinstance(item.value, datetime.datetime):
-            value = item.value.astimezone(dateutil.tz.UTC)
+            value = item.value.astimezone()
             return value.strftime(tools.DEFAULT_SERVER_DATETIME_FORMAT)
         elif isinstance(item.value, datetime.date):
             return item.value.strftime(tools.DEFAULT_SERVER_DATETIME_FORMAT)
@@ -94,7 +94,7 @@ class DavCollectionFieldMapping(models.Model):
     @api.model
     def _from_vobject_date(self, item):
         if isinstance(item.value, datetime.datetime):
-            value = item.value.astimezone(dateutil.tz.UTC)
+            value = item.value.astimezone()
             return value.strftime(tools.DEFAULT_SERVER_DATE_FORMAT)
         elif isinstance(item.value, datetime.date):
             return item.value.strftime(tools.DEFAULT_SERVER_DATE_FORMAT)
