@@ -4,6 +4,7 @@
 
 import os
 import time
+import datetime
 from operator import itemgetter
 from urllib.parse import quote_plus
 
@@ -147,12 +148,18 @@ class DavCollection(models.Model):
         if 'uid' not in vobj.contents:
             vobj.add('uid').value = '%s,%s' % (record._name, record.id)
         if 'rev' not in vobj.contents and 'write_date' in record._fields:
-            vobj.add('rev').value = record.write_date.\
+            if isinstance(record.write_date, datetime.datetime):
+                str_date = str(record.write_date)
+            else:
+                str_date = record.write_date
+            vobj.add('rev').value = str_date.\
                 replace(':', '').replace(' ', 'T').replace('.', '') + 'Z'
         return result
 
     @api.model
     def _odoo_to_http_datetime(self, value):
+        if isinstance(value, datetime.datetime):
+            return value.strftime('%a, %d %b %Y %H:%M:%S GMT')
         return time.strftime(
             '%a, %d %b %Y %H:%M:%S GMT',
             time.strptime(value, '%Y-%m-%d %H:%M:%S'),

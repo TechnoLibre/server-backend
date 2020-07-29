@@ -4,6 +4,7 @@
 import base64
 import os
 import time
+import datetime
 from contextlib import contextmanager
 
 from odoo.http import request
@@ -96,6 +97,8 @@ class Collection(BaseCollection):
             ))
 
     def _odoo_to_http_datetime(self, value):
+        if isinstance(value, datetime.datetime):
+            return value.strftime('%a, %d %b %Y %H:%M:%S GMT')
         return time.strftime(
             '%a, %d %b %Y %H:%M:%S GMT',
             time.strptime(value, '%Y-%m-%d %H:%M:%S'),
