@@ -283,6 +283,7 @@ class DavCollection(models.Model):
                     ),
                 )
 
+        components = [components[0], components[1], components[2][:1]]
         record = self.get_record(components)
 
         if not record:
